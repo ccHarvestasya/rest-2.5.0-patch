@@ -1,7 +1,7 @@
-# rest-2.5.0-patch
+# rest-2.5.0-patch1
 
-## patch1
-
-### issue
+## issue
 
 - Missing `maxFee` in WebSocket transaction notification
+
+## install

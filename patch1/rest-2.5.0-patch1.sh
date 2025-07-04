@@ -3,7 +3,8 @@ set -euo pipefail
 
 URL="http://localhost:3000/node/server"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SRC_PATH="${SCRIPT_DIR}/app/src"
+SRC_DIR="/app/src"
+SRC_PATH="${SCRIPT_DIR}${SRC_DIR}"
 DEST_PATH="/app"
 
 if ! response=$(curl -s "$URL"); then
@@ -43,7 +44,4 @@ fi
 
 echo "Copying ${SRC_PATH} to ${CONTAINER_NAME}:${DEST_PATH}"
 docker cp "$SRC_PATH" "${CONTAINER_NAME}:${DEST_PATH}"
-docker exec ${CONTAINER_NAME} chown -R 1000:1000 ${DEST_PATH}
-
-echo "Restarting container ${CONTAINER_NAME}..."
-docker restart "$CONTAINER_NAME"
+docker exec --user root ${CONTAINER_NAME} chown -R 1000:1000 ${SRC_DIR}
